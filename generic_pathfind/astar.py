@@ -60,7 +60,7 @@ def solve_internal(input_state, goal_function, distance_function, heuristic_func
 def solve(input_state, goal_function, distance_function, heuristic_function, neighbor_function, depth=None):
     path = solve_internal(input_state, goal_function, distance_function, heuristic_function, neighbor_function, depth)
     print(input_state)
-    print(path[-2])
+    print(path)
     for i in range(9):
         if int(input_state[i]) == 0 and int(path[-2][i]) == 2:
             return i
