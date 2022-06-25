@@ -30,10 +30,16 @@ class TicTacTwo:
             return False
     
     def change_turn(self):
-        self.board[self.TURN_INDEX] = 3 - self.board[self.TURN_INDEX] # flip the turn
+        temp = list(self.board)
+        temp[self.TURN_INDEX] = 3 - self.board[self.TURN_INDEX] # flip the turn
+        self.board = tuple(temp)
 
     def print(self):
-        print(self.board)
+        print("\nCurrent state:")
+        print(f"Player {self.board[0]}'s turn")
+        print(self.board[1:4], "= 1, 2, 3")
+        print(self.board[4:7], "= 4, 5, 6")
+        print(self.board[7:10], "= 7, 8, 9")
 
     def get_board(self):
         return self.board

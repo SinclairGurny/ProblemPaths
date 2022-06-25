@@ -3,6 +3,7 @@ from copy import deepcopy
 def solve_internal(current_state: tuple,
           known_states: dict,
         #   path: list,
+          contains_function,
           combination_function,
           neighbor_function,
           depth: int):
@@ -10,8 +11,9 @@ def solve_internal(current_state: tuple,
     if isinstance(current_state, list):
         current_state = tuple(current_state)
 
-    if current_state in known_states.keys():
-        return known_states[current_state]
+    index = contains_function(current_state, known_states.keys())
+    if index is not None:
+        return known_states[index]
 
     if depth == 0:
         return 0, None # reconsider this value later
@@ -23,15 +25,15 @@ def solve_internal(current_state: tuple,
 
     values = []
     for potential_move, move in possible_moves:
-        value, _ = solve_internal(potential_move, known_states, combination_function, neighbor_function, depth - 1)
+        value, _ = solve_internal(potential_move, known_states, contains_function, combination_function, neighbor_function, depth - 1)
         values.append((value, move))
     
     choice = combination_function(values)
     if depth == 10:
         print('finishing')
-        print(current_state)
-        print(choice)
-        print(values)
+        print("current_state: " + str(current_state))
+        print("choice: " + str(choice))
+        print("values: " + str(values))
         
     return choice
 
@@ -39,19 +41,21 @@ def solve_internal(current_state: tuple,
 
 def solve(current_state: tuple,
           known_states: dict,
+          contains_function,
           combination_function,
           neighbor_function,
           depth: int):
-    print("Starting solve")
+    # print("Starting solve")
     val, move = solve_internal(
         current_state,
         known_states,
+        contains_function,
         combination_function,
         neighbor_function,
         depth
     )
-    print("Finishing solver")
-    print(val, move)
+    # print("Finishing solver")
+    # print(val, move)
     return move
 
 """
@@ -60,3 +64,4 @@ known_states = {
     x : (fitness_function(x), move)
 }
 """
+
