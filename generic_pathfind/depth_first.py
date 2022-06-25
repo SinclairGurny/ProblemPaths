@@ -6,7 +6,8 @@ def solve_internal(current_state: tuple,
           contains_function,
           combination_function,
           neighbor_function,
-          depth: int):
+          depth: int,
+          max_depth: int):
     #print("Starting solve_internal")
     if isinstance(current_state, list):
         current_state = tuple(current_state)
@@ -25,11 +26,11 @@ def solve_internal(current_state: tuple,
 
     values = []
     for potential_move, move in possible_moves:
-        value, _ = solve_internal(potential_move, known_states, contains_function, combination_function, neighbor_function, depth - 1)
+        value, _ = solve_internal(potential_move, known_states, contains_function, combination_function, neighbor_function, depth - 1, max_depth)
         values.append((value, move))
     
-    choice = combination_function(values)
-    if depth == 10:
+    choice = combination_function(values, {"depth": depth})
+    if depth == max_depth:
         print('finishing')
         print("current_state: " + str(current_state))
         print("choice: " + str(choice))
@@ -52,6 +53,7 @@ def solve(current_state: tuple,
         contains_function,
         combination_function,
         neighbor_function,
+        depth,
         depth
     )
     # print("Finishing solver")
