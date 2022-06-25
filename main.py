@@ -5,6 +5,9 @@ import generic_pathfind.depth_first as dfpf
 import games.tictactoe as tictactoe
 from games.tictactwo import TicTacTwo, get_human_input, check_win, check_draw, find_steps
 
+def combination_func(values):
+    values.sort(key=lambda x: x[0])
+    return values[0]
 
 def main():
     # tictactoe.start_game(ai=gpf.solve)
@@ -12,11 +15,9 @@ def main():
 
     path = []
 
-    def combination_func(values):
-        values.sort(key=lambda x: x[0])
-        return values[0]
 
     while True:
+        print("Loop")
         game.run_once(dfpf.solve, kwargs={
             "current_state": game.get_board(),
             "known_states": {

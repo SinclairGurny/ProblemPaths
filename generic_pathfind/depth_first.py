@@ -1,11 +1,12 @@
 from copy import deepcopy
 
-def solve(current_state: tuple,
+def solve_internal(current_state: tuple,
           known_states: dict,
         #   path: list,
           combination_function,
           neighbor_function,
           depth: int):
+    #print("Starting solve_internal")
     if isinstance(current_state, list):
         current_state = tuple(current_state)
 
@@ -17,29 +18,41 @@ def solve(current_state: tuple,
 
     possible_moves = neighbor_function(current_state)
     if len(possible_moves) == 0:
-        return -2, None # reconsider this value later
+        #print(current_state)
+        return 0, None # reconsider this value later
 
     values = []
-    for potential_move in possible_moves:
-        value, moves = solve(potential_move, known_states, combination_function, neighbor_function, depth - 1)
-        values.append((value, moves))
+    for potential_move, move in possible_moves:
+        value, _ = solve_internal(potential_move, known_states, combination_function, neighbor_function, depth - 1)
+        values.append((value, move))
     
-    return combination_function(values)
+    choice = combination_function(values)
+    if depth == 10:
+        print('finishing')
+        print(current_state)
+        print(choice)
+        print(values)
+        
+    return choice
 
 
 
-# def solve(current_state: tuple,
-#           known_states: dict,
-#           path: list,
-#           combination_function,
-#           neighbor_function,
-#           depth: int):
-#     something = solve_internal(current_state,
-#                                known_states,
-#                                path,
-#                                combination_function,
-#                                neighbor_function,
-#                                depth)
+def solve(current_state: tuple,
+          known_states: dict,
+          combination_function,
+          neighbor_function,
+          depth: int):
+    print("Starting solve")
+    val, move = solve_internal(
+        current_state,
+        known_states,
+        combination_function,
+        neighbor_function,
+        depth
+    )
+    print("Finishing solver")
+    print(val, move)
+    return move
 
 """
 known_states = {

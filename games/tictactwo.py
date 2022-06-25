@@ -18,7 +18,7 @@ class TicTacTwo:
     
     def run_once(self, input_function, kwargs):
         selected_input = input_function(**kwargs)
-
+        #print(selected_input)
 
         if self.board[selected_input] == 0:
             temp = list(self.board)
@@ -99,5 +99,5 @@ def find_steps(state):
                 kwargs={}
             )
             new_state = simulated_board.get_board()
-            states.append(new_state)
+            states.append((new_state, i))
     return states
