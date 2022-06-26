@@ -1,0 +1,6 @@
+* Code cleanup
+* Ensure all game logic is pulled into corresponding file
+* Write templates for required functions to create new game
+* Add new states based on supervised learning (win/lose/draw)
+* Come up with simplistic statistical models to learn certain functions
+* Encapsulate logic in a way that allows for multi-tiered predictions

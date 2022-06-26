@@ -81,7 +81,7 @@ def main():
 
     path = []
     
-    win_scale = 0
+    win_scale = 1.0
     lose_scale = 1.0
 
     is_final = False
