@@ -1,3 +1,7 @@
+"""
+Implements the functions necessary for Tic Tac Toe
+"""
+
 
 class TicTacTwo:
     TURN_INDEX = 0
@@ -7,19 +11,16 @@ class TicTacTwo:
         if board is not None:
             self.board = board
         else:
-            self.board = [
+            self.board = (
                 1, # who's turn is it?
-
                 # the board (0 is nothing there, 1 is player 1s cell, 2 is player 2s cell)
                 0, 0, 0,
                 0, 0, 0,
                 0, 0, 0
-            ]
+            )
     
     def run_once(self, input_function, kwargs):
         selected_input = input_function(**kwargs)
-        #print(selected_input)
-
         if self.board[selected_input] == 0:
             temp = list(self.board)
             temp[selected_input] = self.board[self.TURN_INDEX] # change the selected input to the players
@@ -34,9 +35,10 @@ class TicTacTwo:
         temp[self.TURN_INDEX] = 3 - self.board[self.TURN_INDEX] # flip the turn
         self.board = tuple(temp)
 
-    def print(self):
-        print("\nCurrent state:")
-        print(f"Player {self.board[0]}'s turn")
+    def print(self, include_turn=True):
+        print("Current state:")
+        if include_turn:
+            print(f"Player {self.board[0]}'s turn")
         print(self.board[1:4], "= 1, 2, 3")
         print(self.board[4:7], "= 4, 5, 6")
         print(self.board[7:10], "= 7, 8, 9")
@@ -53,20 +55,16 @@ def get_human_input(prompt):
         except ValueError as e:
             print("Please provide a number between 1 and 9 to choose which box to play.")
             continue
-        
         if choice in range(1, 10):
             valid_input = True
         else:
             print("Please provide a number between 1 and 9 to choose which box to play.")
-        
     return choice
 
 
-
-def isP(val, player):
-    return int(val) == player
-
 def check_win(state, p):
+    """Checks for a win for player p in state"""
+    isP = lambda val, player: int(val) == player
     # Horizontal
     if isP(state[1], p) and isP(state[2], p) and isP(state[3], p):
         return True
@@ -90,12 +88,14 @@ def check_win(state, p):
     return False
 
 def check_draw(state):
+    """Checks for draw, assuming that no one has won"""
     for i in range(1, 10):
         if state[i] == 0:
             return False
     return True
 
-def find_steps(state):
+def find_transitions(state):
+    """Returns list of (state, transition) pairs from the current state."""
     states = []
     for i in range(1, 10):
         if state[i] == 0:
