@@ -104,6 +104,7 @@ def find_steps(state):
                 input_function=lambda: i,
                 kwargs={}
             )
+            simulated_board.change_turn()
             new_state = simulated_board.get_board()
             states.append((new_state, i))
     return states

@@ -6,8 +6,8 @@ import games.tictactoe as tictactoe
 from games.tictactwo import TicTacTwo, get_human_input, check_win, check_draw, find_steps
 
 def combination_func(values, args={}):
-    version = 7
-    decay = 0.8
+    version = 6
+    decay = 1.0
     match version:
         case 0:
             # Max
@@ -54,7 +54,7 @@ def combination_func(values, args={}):
             val1, move1 = values[-1]
             # Fastes loss
             val2, move2 = values[0]
-            return (val1 + val2) * decay, move1
+            return (val1 - val2) * decay, move1
         case _:
             # Random
             return choice(values)
@@ -80,6 +80,9 @@ def main():
     game = TicTacTwo()
 
     path = []
+    
+    win_scale = 0
+    lose_scale = 1.0
 
     is_final = False
     while not is_final:
@@ -90,74 +93,74 @@ def main():
                 (1,
                  1,1,1,
                  0,0,0,
-                 0,0,0) : (1, None),
+                 0,0,0) : (1 * win_scale, None),
                 (1,
                  0,0,0,
                  1,1,1,
-                 0,0,0) : (1, None),
+                 0,0,0) : (1 * win_scale, None),
                 (1,
                  0,0,0,
                  0,0,0,
-                 1,1,1) : (1, None),
+                 1,1,1) : (1 * win_scale, None),
                 (1,
                  1,0,0,
                  1,0,0,
-                 1,0,0) : (1, None),
+                 1,0,0) : (1 * win_scale, None),
                 (1,
                  0,1,0,
                  0,1,0,
-                 0,1,0) : (1, None),
+                 0,1,0) : (1 * win_scale, None),
                 (1,
                  0,0,1,
                  0,0,1,
-                 0,0,1) : (1, None),
+                 0,0,1) : (1 * win_scale, None),
                 (1,
                  0,0,1,
                  0,1,0,
-                 1,0,0) : (1, None),
+                 1,0,0) : (1 * win_scale, None),
                 (1,
                  1,0,0,
                  0,1,0,
-                 0,0,1) : (1, None),
+                 0,0,1) : (1 * win_scale, None),
                 # Lose
                 (2,
                  2,2,2,
                  0,0,0,
-                 0,0,0) : (-1, None),
+                 0,0,0) : (-1 * lose_scale, None),
                 (2,
                  0,0,0,
                  2,2,2,
-                 0,0,0) : (-1, None),
+                 0,0,0) : (-1 * lose_scale, None),
                 (2,
                  0,0,0,
                  0,0,0,
-                 2,2,2) : (-1, None),
+                 2,2,2) : (-1 * lose_scale, None),
                 (2,
                  2,0,0,
                  2,0,0,
-                 2,0,0) : (-1, None),
+                 2,0,0) : (-1 * lose_scale, None),
                 (2,
                  0,2,0,
                  0,2,0,
-                 0,2,0) : (-1, None),
+                 0,2,0) : (-1 * lose_scale, None),
                 (2,
                  0,0,2,
                  0,0,2,
-                 0,0,2) : (-1, None),
+                 0,0,2) : (-1 * lose_scale, None),
                 (2,
                  0,0,2,
                  0,2,0,
-                 2,0,0) : (-1, None),
+                 2,0,0) : (-1 * lose_scale, None),
                 (2,
                  2,0,0,
                  0,2,0,
-                 0,0,2) : (-1, None)
+                 0,0,2) : (-1 * lose_scale, None)
             },
             # "path": path,
             "contains_function": compare,
             "combination_function": combination_func,
             "neighbor_function": find_steps,
-            "depth": 4
+            "depth": 10
         })
         game.print()
 

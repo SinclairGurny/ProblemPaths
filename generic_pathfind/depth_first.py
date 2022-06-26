@@ -14,6 +14,7 @@ def solve_internal(current_state: tuple,
 
     index = contains_function(current_state, known_states.keys())
     if index is not None:
+        #print(current_state, index)
         return known_states[index]
 
     if depth == 0:
