@@ -3,7 +3,7 @@ Implements the functions necessary for Tic Tac Toe
 """
 
 
-class TicTacTwo:
+class TicTacToo:
     TURN_INDEX = 0
 
     def __init__(self, board=None):
@@ -21,14 +21,23 @@ class TicTacTwo:
     
     def run_once(self, input_function, kwargs):
         selected_input = input_function(**kwargs)
-        if self.board[selected_input] == 0:
-            temp = list(self.board)
-            temp[selected_input] = self.board[self.TURN_INDEX] # change the selected input to the players
-            self.board = tuple(temp)
-            return True
-        else:
-            print("bad move")
-            return False
+        assert self.board[selected_input] == 0, "Invalid move!"
+        temp = list(self.board)
+        temp[selected_input] = self.board[self.TURN_INDEX] # change the selected input to the players
+        self.board = tuple(temp)
+        turn = self.board[self.TURN_INDEX]
+        self.change_turn()
+        return turn, selected_input
+    
+    def run_ai(self, move):
+        selected_input = move
+        assert self.board[selected_input] == 0, "Invalid move!"
+        temp = list(self.board)
+        temp[selected_input] = self.board[self.TURN_INDEX] # change the selected input to the players
+        self.board = tuple(temp)
+        turn = self.board[self.TURN_INDEX]
+        self.change_turn()
+        return turn, selected_input
     
     def change_turn(self):
         temp = list(self.board)
@@ -93,18 +102,3 @@ def check_draw(state):
         if state[i] == 0:
             return False
     return True
-
-def find_transitions(state):
-    """Returns list of (state, transition) pairs from the current state."""
-    states = []
-    for i in range(1, 10):
-        if state[i] == 0:
-            simulated_board = TicTacTwo(state)
-            simulated_board.run_once(
-                input_function=lambda: i,
-                kwargs={}
-            )
-            simulated_board.change_turn()
-            new_state = simulated_board.get_board()
-            states.append((new_state, i))
-    return states
